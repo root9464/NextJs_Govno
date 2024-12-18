@@ -3,7 +3,6 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 type User = {
-  id: string;
   name: string;
   password: string;
 };

@@ -3,8 +3,6 @@ import { useUserStore } from '@/shared/store/userStore';
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/modal';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { useState } from 'react';
 
 type Response = {
@@ -29,32 +27,13 @@ export const Header = () => {
 
   const { setUser, user } = useUserStore();
 
-  const {
-    data,
-    mutate: authorize,
-    isSuccess,
-  } = useMutation({
-    mutationKey: ['auth'],
-    mutationFn: async () => {
-      const { data, status, statusText } = await axios.post<Response>('http://localhost:3000/api/auth', inputsData);
-      console.log(inputsData);
-
-      if (!status) throw new Error(statusText);
-
-      return data.user;
-    },
-    onSuccess: (data) => {
-      setUser(data);
-    },
-  });
-
   return (
     <div className='flex h-fit w-full flex-col items-center justify-center'>
       <header className='h-50 m-auto mt-10 flex w-[90%] flex-row items-center justify-between rounded-[20px] bg-white px-[15px] py-2.5'>
         <h1 className='text-xl font-semibold text-black'>Reddit clone</h1>
-        {data || areAllValuesFilled(user) ? (
+        {areAllValuesFilled(user) ? (
           <p className='flex h-10 w-[80px] flex-row items-center justify-center rounded-[10px] border-2 border-[#212121] text-black'>
-            {data?.name || user.name}
+            {user?.name}
           </p>
         ) : (
           <Button className='rounded-[10px] bg-[#212121] text-white' onPress={onOpen}>
@@ -82,7 +61,13 @@ export const Header = () => {
                   <Button color='danger' variant='flat' onPress={onClose}>
                     Close
                   </Button>
-                  <Button className='bg-[#212121] text-white' onPress={() => authorize()}>
+                  <Button
+                    className='bg-[#212121] text-white'
+                    onPress={() => {
+                      setUser(inputsData);
+                      onClose();
+                    }}
+                  >
                     Action
                   </Button>
                 </ModalFooter>

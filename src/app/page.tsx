@@ -50,7 +50,13 @@ export default function Home() {
                 <Input label='Content' type='text' onChange={(e) => setInputsData({ ...inputsData, content: e.target.value })} />
               </ModalBody>
               <ModalFooter>
-                <Button className='bg-[#212121] text-white' onPress={() => setPosts([...posts, inputsData])}>
+                <Button
+                  className='bg-[#212121] text-white'
+                  onPress={() => {
+                    setPosts([...posts, inputsData]);
+                    onClose();
+                  }}
+                >
                   Publish
                 </Button>
               </ModalFooter>

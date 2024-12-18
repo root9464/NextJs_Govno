@@ -1,5 +1,3 @@
-import { Button } from '@nextui-org/button';
-
 type Props = {
   title: string;
   body: string;
@@ -12,6 +10,6 @@ export const PostCard = ({ title, body }: Props) => (
       <p>{body}</p>
     </div>
 
-    <Button className='h-14 rounded-[10px] bg-[#212121] text-white'>Прочитать</Button>
+    {/* <Button className='h-14 rounded-[10px] bg-[#212121] text-white'>Прочитать</Button> */}
   </div>
 );
